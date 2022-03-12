@@ -58,10 +58,22 @@ class TwitterClient(context: Context) : OAuthBaseClient(
             getApiUrl("statuses/home_timeline.json")
 
         // Can specify query string params directly or through RequestParams.
-        Log.i("Ben",apiUrl)
         val params = RequestParams()
         params.put("count", "25")
         params.put("since_id", 1)
+        client.get(apiUrl, params, handler)
+    }
+
+    //Returns results with an ID less than (that is, older than) or equal to the specified ID.
+    fun getNextTimeline(handler: JsonHttpResponseHandler, maxID: Long) {
+        val apiUrl =
+            getApiUrl("statuses/home_timeline.json")
+
+        // Can specify query string params directly or through RequestParams.
+        Log.i("Ben","Next page request made, MAX_ID: $maxID")
+        val params = RequestParams()
+        params.put("count", "25")
+        params.put("max_id", maxID)
         client.get(apiUrl, params, handler)
     }
 

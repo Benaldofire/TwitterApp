@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.codepath.apps.restclienttemplate.models.Tweet
 import org.w3c.dom.Text
 
-class TweetsAdapter (val tweets: ArrayList<Tweet>) : RecyclerView.Adapter<TweetsAdapter.ViewHolder>() {
+class TweetsAdapter (val tweets: ArrayList<Tweet>) : RecyclerView.Adapter<TweetsAdapter.ViewHolder>(), View.OnClickListener {
 
     //responsible for inflating the layout we want to use for each item we need to display
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsAdapter.ViewHolder {
@@ -27,7 +28,7 @@ class TweetsAdapter (val tweets: ArrayList<Tweet>) : RecyclerView.Adapter<Tweets
     //populating data into the item through holder
     override fun onBindViewHolder(holder: TweetsAdapter.ViewHolder, position: Int) {
         //Get the data model based on position
-        val tweet: Tweet = tweets.get(position)
+        val tweet: Tweet = tweets[position]
 
         //Set item views based on views and data model
 
@@ -60,5 +61,12 @@ class TweetsAdapter (val tweets: ArrayList<Tweet>) : RecyclerView.Adapter<Tweets
         val ivProfileImage = itemView.findViewById<ImageView>(R.id.ivProfileImage)
         val tvUsername = itemView.findViewById<TextView>(R.id.tvUsername)
         val tvTweetBody = itemView.findViewById<TextView>(R.id.tvTweetBody)
+    }
+
+    override fun onClick(p0: View?) {
+        //1. Get notified of the particular tweet which was clicked
+
+        //val tweet = tweets[adapterPosition]
+        //2. Use the intent system to navigate to new activity
     }
 }
