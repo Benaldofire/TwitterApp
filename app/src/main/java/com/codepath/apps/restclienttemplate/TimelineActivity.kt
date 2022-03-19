@@ -1,7 +1,13 @@
 package com.codepath.apps.restclienttemplate
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -49,7 +55,7 @@ class TimelineActivity : AppCompatActivity() {
 
 
         rvTweets = findViewById(R.id.rvTweets)
-        adapter = TweetsAdapter(tweets)
+        adapter = TweetsAdapter(this, tweets)
 
         val linearLayoutManager = LinearLayoutManager(this)
 
@@ -70,6 +76,44 @@ class TimelineActivity : AppCompatActivity() {
 
         populateHomeTimeline()
 
+    }
+
+    //To inflate our menu, and associate it with this class
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    //defining listener for when user clicks on menu item
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.compose) {
+            // Navigating to the tweet composing screen
+
+
+//
+            val intent = Intent(this, ComposeActivity::class.java)
+            composeActivityResultLauncher.launch(intent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    var composeActivityResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
+        // If the user comes back to this activity from EditActivity
+        // with no error or cancellation
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            // Get the data passed from ComposeActivity
+            if (data != null) {
+                val tweet = data.getParcelableArrayExtra("tweet") as Tweet
+
+                //update timeline
+                tweets.add(0, tweet)
+
+                //update adapter
+                adapter.notifyItemInserted(0)
+                rvTweets.smoothScrollToPosition(0)
+            }
+        }
     }
 
     fun populateHomeTimeline() {
