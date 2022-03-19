@@ -36,7 +36,7 @@ To work on stretch stories and Improve the overall layout of the displayed page.
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
+<img src='TwitterApp2.gif' title='Video Walkthrough' width='250px' alt='Video Walkthrough' />
 
 
 # Project 2 part 1 - *Twitter App*
